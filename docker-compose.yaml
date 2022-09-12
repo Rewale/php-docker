@@ -10,9 +10,14 @@ services:
         - ./hosts/site.conf:/etc/nginx/conf.d/default.conf
     links:
         - php
-
   php:
-      build: .
-      volumes:
-        - ./code:/code
-        - ./volumeFiles:/code/res
+    build:
+      context: .
+      args:
+        # Указать аналогичный user id
+        # пользователя имеющего права на
+        # чтение и запись файлов в volumeFiles на хостовой машине 
+        UID: 1000
+    volumes:
+      - ./code:/code
+      - ./volumeFiles:/code/res
